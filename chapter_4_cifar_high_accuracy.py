@@ -9,8 +9,6 @@ from keras.losses import CategoricalCrossentropy
 from keras import regularizers, optimizers
 import numpy as np
 
-# TODO enable persistance with docker for data and models
-
 from matplotlib import pyplot
 
 # Step 2 Get the data ready for training
@@ -103,9 +101,9 @@ model.add(Dense(10, activation='softmax'))
 model.summary()
 
 batch_size = 256
-epochs = 1
+epochs = 10
 
-checkpointer = ModelCheckpoint(filepath='model.125epochs.hdf5', verbose=True, save_best_only=True)
+checkpointer = ModelCheckpoint(filepath=f'model.{epochs}epochs.hdf5', verbose=True, save_best_only=True)
 optimizer = keras.optimizers.Adam(learning_rate=0.0001, decay=1e-6)
 
 model.compile(loss=CategoricalCrossentropy(), optimizer=optimizer, metrics=['accuracy'])
@@ -116,10 +114,11 @@ history = model.fit(datagen.flow(x_train, y_train, batch_size=batch_size), callb
 
 
 # Step 5 evaluate the model
-scores = model.evaluate(x_test, y_test, batch_size=128, verbose=1)
+scores = model.evaluate(x_test, y_test, batch_size=batch_size, verbose=1)
 print('\nTest Result: %.3f loss: %.3f' % (scores[1]*100, scores[0]))
 
-pyplot.plot(history.history['acc'], label='train')
-pyplot.plot(history.history['val_acc'], label='test')
+pyplot.plot(history.history['accuracy'], label='train')
+pyplot.plot(history.history['val_accuracy'], label='test')
 pyplot.legend()
 pyplot.show()
+pyplot.savefig(f'model.{epochs}epochs.png')
