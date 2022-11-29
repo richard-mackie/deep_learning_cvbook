@@ -103,7 +103,7 @@ model.add(Dense(10, activation='softmax'))
 model.summary()
 
 batch_size = 256
-epochs = 125
+epochs = 1
 
 checkpointer = ModelCheckpoint(filepath='model.125epochs.hdf5', verbose=True, save_best_only=True)
 optimizer = keras.optimizers.Adam(learning_rate=0.0001, decay=1e-6)

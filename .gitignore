@@ -1,4 +1,7 @@
 .idea
+.gitignore
 /data
 /checkpoints
 Dockerfile
+*.hdf5
+*.tar.gz
